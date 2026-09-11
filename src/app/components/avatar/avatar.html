@@ -1,0 +1,14 @@
+@if (imagen() && !fallo()) {
+  <img
+    [src]="imagen()!"
+    [alt]="nombre()"
+    (error)="fallo.set(true)"
+    class="block rounded-full object-cover {{ tam() }} text-transparent"
+  />
+} @else {
+  <span
+    class="grid shrink-0 place-items-center rounded-full border border-accent/30 bg-accent/10 font-semibold text-accent {{ tam() }}"
+  >
+    {{ inicialesDe(nombre()) }}
+  </span>
+}

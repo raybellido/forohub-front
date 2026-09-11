@@ -1,0 +1,143 @@
+<div class="mx-auto max-w-3xl px-4 py-8">
+  <h1 class="mb-6 font-display text-2xl font-bold tracking-tight text-paper">Mi perfil</h1>
+
+  @if (miPerfil(); as perfil) {
+    <section class="mb-6 flex flex-wrap items-center gap-5 rounded-xl border border-line bg-panel p-4 sm:p-6">
+      <app-avatar [imagen]="perfil.avatarUrl" [nombre]="perfil.nombre" tam="h-20 w-20 text-2xl" />
+      <div>
+        <h2 class="font-display text-lg font-semibold text-paper">{{ perfil.nombre }}</h2>
+        <p class="text-sm text-dim">{{ perfil.email }}</p>
+        <div class="mt-2 flex flex-wrap items-center gap-2 text-xs">
+          <span class="rounded-full px-2.5 py-0.5 font-medium" [class]="PERFIL_CLASES[perfil.perfil]">
+            {{ PERFIL_LABEL[perfil.perfil] }}
+          </span>
+          <span class="text-dim">Miembro desde: {{ formatearFecha(perfil.fechaIngreso) }}</span>
+        </div>
+      </div>
+    </section>
+  }
+
+  <div class="rounded-xl border border-line bg-panel p-4 sm:p-6">
+    <div class="mb-1 flex items-center justify-between gap-3">
+      <h2 class="font-display text-base font-semibold text-paper">Avatar</h2>
+      @if (guardado()) {
+        <span class="rounded-full bg-mint/10 px-3 py-1 text-xs font-medium text-mint">
+          Guardado ✓
+        </span>
+      }
+    </div>
+    <p class="mb-5 text-sm text-dim">
+      Elige un estilo de generador o pega una URL de imagen propia.
+    </p>
+
+    @if (error()) {
+      <div class="mb-4 rounded-lg border border-danger/30 bg-danger/10 px-4 py-3 text-sm text-danger">
+        {{ error() }}
+      </div>
+    }
+
+    <div class="mb-5 flex flex-wrap gap-2">
+      <button
+        type="button"
+        (click)="modo.set('generador');"
+        class="rounded-lg px-4 py-2.5 text-sm font-medium transition-colors"
+        [class]="modo() === 'generador'
+          ? 'bg-accent text-ink-deep'
+          : 'bg-panel-2 text-dim hover:bg-line hover:text-paper'"
+      >
+        Generador de avatares
+      </button>
+      <button
+        type="button"
+        (click)="modo.set('url');"
+        class="rounded-lg px-4 py-2.5 text-sm font-medium transition-colors"
+        [class]="modo() === 'url'
+          ? 'bg-accent text-ink-deep'
+          : 'bg-panel-2 text-dim hover:bg-line hover:text-paper'"
+      >
+        URL propia
+      </button>
+    </div>
+
+    @if (modo() === 'generador') {
+      <div>
+        <label for="seed" class="mb-1.5 block text-sm font-medium text-paper/80">Nombre del avatar</label>
+        <input
+          id="seed"
+          type="text"
+          [value]="seed()"
+          (input)="seed.set($any($event.target).value)"
+          placeholder="Escribe un nombre para tu avatar"
+          class="w-full rounded-lg border border-line bg-ink-deep px-3 py-2 text-sm text-paper placeholder:text-dim/60 focus:border-accent focus-visible:outline-2 focus-visible:outline-accent focus-visible:outline-offset-2"
+        />
+
+        <label class="mt-5 mb-1.5 block text-sm font-medium text-paper/80">Estilo</label>
+        <div class="grid grid-cols-3 gap-2 sm:grid-cols-4 md:grid-cols-6">
+          @for (opcion of ESTILOS_AVATAR; track opcion.id) {
+            <button
+              type="button"
+              (click)="estilo.set(opcion.id)"
+              class="flex flex-col items-center gap-1 rounded-lg border p-2 transition-colors"
+              [class]="opcion.id === estilo()
+                ? 'border-accent bg-accent/10'
+                : 'border-line-soft bg-ink-deep/60 hover:border-line'"
+            >
+              <img
+                src="{{ miniUrl(opcion.id) }}"
+                alt="{{ opcion.nombre }}"
+                class="h-12 w-12 rounded-full"
+                loading="lazy"
+              />
+              <span class="text-[10px] leading-tight text-dim">{{ opcion.nombre }}</span>
+            </button>
+          }
+        </div>
+      </div>
+    } @else {
+      <div>
+        <label for="url" class="mb-1.5 block text-sm font-medium text-paper/80">URL de imagen</label>
+        <input
+          id="url"
+          type="url"
+          [value]="urlLibre()"
+          (input)="urlLibre.set($any($event.target).value)"
+          placeholder="https://ejemplo.com/imagen.png"
+          class="w-full rounded-lg border border-line bg-ink-deep px-3 py-2 text-sm text-paper placeholder:text-dim/60 focus:border-accent focus-visible:outline-2 focus-visible:outline-accent focus-visible:outline-offset-2"
+        />
+      </div>
+    }
+
+    <div class="mt-6 rounded-xl border border-line-soft bg-ink-deep/60 p-4">
+      <p class="mb-2 text-xs text-dim">Vista previa</p>
+      <div class="flex items-center gap-4">
+        @if (previewUrl(); as url) {
+          <img [src]="url" alt="Previsualización" class="h-20 w-20 rounded-full object-cover" />
+        } @else {
+          <span class="grid h-20 w-20 place-items-center rounded-full border border-accent/30 bg-accent/10 font-bold text-accent">
+            {{ inicialesDe(miPerfil()?.nombre ?? '?') }}
+          </span>
+        }
+        <p class="text-xs text-dim">
+          {{ urlPreviewDescripcion() }}
+        </p>
+      </div>
+    </div>
+
+    <div class="mt-6 flex justify-end gap-3">
+      <a
+        routerLink="/topicos"
+        class="rounded-lg px-4 py-2 text-sm font-medium text-dim transition-colors hover:bg-panel-2 hover:text-paper"
+      >
+        Cancelar
+      </a>
+      <button
+        type="button"
+        (click)="guardar()"
+        [disabled]="guardando()"
+        class="rounded-lg bg-accent px-5 py-2 text-sm font-semibold text-ink-deep transition-colors hover:bg-accent-strong disabled:cursor-not-allowed disabled:opacity-60"
+      >
+        {{ guardando() ? 'Guardando…' : 'Guardar avatar' }}
+      </button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,101 @@
+<div class="mx-auto max-w-2xl px-4 py-8">
+  <div class="mb-6">
+    <a routerLink="/topicos" class="text-sm text-dim transition-colors hover:text-paper">← Volver a tópicos</a>
+    <h1 class="mt-2 font-display text-2xl font-bold tracking-tight text-paper">{{ esEdicion() ? 'Editar tópico' : 'Nuevo tópico' }}</h1>
+    <p class="mt-1 text-sm text-dim">
+      {{ esEdicion() ? 'Modifica los datos de tu tópico.' : 'Comparte tu pregunta o discusión con la comunidad.' }}
+    </p>
+  </div>
+
+  @if (cargandoInicial()) {
+    <div class="animate-pulse rounded-xl border border-line bg-panel p-6">
+      <div class="h-4 w-1/3 rounded bg-line"></div>
+      <div class="mt-4 h-10 rounded bg-line-soft"></div>
+      <div class="mt-4 h-28 rounded bg-line-soft"></div>
+    </div>
+  } @else {
+    <form [formGroup]="formulario" (ngSubmit)="guardar()" class="space-y-5 rounded-xl border border-line bg-panel p-4 sm:p-6">
+      @if (errorGeneral()) {
+        <div class="rounded-lg border border-danger/30 bg-danger/10 px-4 py-3 text-sm text-danger">
+          {{ errorGeneral() }}
+        </div>
+      }
+
+      <div>
+        <label for="titulo" class="mb-1.5 block text-sm font-medium text-paper/80">Título</label>
+        <input
+          id="titulo"
+          type="text"
+          formControlName="titulo"
+          placeholder="Ej: ¿Cómo manejar errores en Spring Boot?"
+          class="w-full rounded-lg border border-line bg-ink-deep px-3 py-2 text-sm text-paper placeholder:text-dim/60 focus:border-accent focus-visible:outline-2 focus-visible:outline-accent focus-visible:outline-offset-2"
+        />
+        @if (campoError('titulo'); as error) {
+          <p class="mt-1 text-xs text-danger">{{ error }}</p>
+        }
+      </div>
+
+      <div>
+        <label for="mensaje" class="mb-1.5 block text-sm font-medium text-paper/80">Mensaje</label>
+        <textarea
+          id="mensaje"
+          formControlName="mensaje"
+          rows="6"
+          placeholder="Describe tu duda con el mayor detalle posible (mínimo 10 caracteres)."
+          class="w-full resize-y rounded-lg border border-line bg-ink-deep px-3 py-2 text-sm text-paper placeholder:text-dim/60 focus:border-accent focus-visible:outline-2 focus-visible:outline-accent focus-visible:outline-offset-2"
+        ></textarea>
+        @if (campoError('mensaje'); as error) {
+          <p class="mt-1 text-xs text-danger">{{ error }}</p>
+        }
+      </div>
+
+      <div class="grid gap-5 sm:grid-cols-2">
+        <div>
+          <label for="cursoId" class="mb-1.5 block text-sm font-medium text-paper/80">Curso</label>
+          <select
+            id="cursoId"
+            formControlName="cursoId"
+            class="select-outlined w-full appearance-none rounded-lg border border-line bg-ink-deep px-3 py-2 pr-9 text-sm text-paper focus:border-accent focus-visible:outline-2 focus-visible:outline-accent focus-visible:outline-offset-2"
+          >
+            <option [ngValue]="null" disabled>Selecciona un curso</option>
+            @for (curso of cursos(); track curso.id) {
+              <option [ngValue]="curso.id">{{ curso.nombre }}</option>
+            }
+          </select>
+          @if (campoError('cursoId'); as error) {
+            <p class="mt-1 text-xs text-danger">{{ error }}</p>
+          }
+        </div>
+
+        <div>
+          <label for="status" class="mb-1.5 block text-sm font-medium text-paper/80">Estado</label>
+          <select
+            id="status"
+            formControlName="status"
+            class="select-outlined w-full appearance-none rounded-lg border border-line bg-ink-deep px-3 py-2 pr-9 text-sm text-paper focus:border-accent focus-visible:outline-2 focus-visible:outline-accent focus-visible:outline-offset-2"
+          >
+            @for (status of statuses; track status) {
+              <option [ngValue]="status">{{ STATUS_TOPICO_LABEL[status] }}</option>
+            }
+          </select>
+        </div>
+      </div>
+
+      <div class="flex items-center justify-end gap-3 pt-2">
+        <a
+          routerLink="/topicos"
+          class="rounded-lg px-4 py-2 text-sm font-medium text-dim transition-colors hover:bg-panel-2 hover:text-paper"
+        >
+          Cancelar
+        </a>
+        <button
+          type="submit"
+          [disabled]="cargando()"
+          class="rounded-lg bg-accent px-5 py-2 text-sm font-semibold text-ink-deep transition-colors hover:bg-accent-strong disabled:cursor-not-allowed disabled:opacity-60"
+        >
+          {{ cargando() ? 'Guardando…' : esEdicion() ? 'Guardar cambios' : 'Publicar tópico' }}
+        </button>
+      </div>
+    </form>
+  }
+</div>

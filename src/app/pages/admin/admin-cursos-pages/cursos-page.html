@@ -1,0 +1,112 @@
+<div class="mx-auto max-w-4xl px-4 py-8">
+  <div class="mb-8">
+    <h1 class="font-display text-2xl font-bold tracking-tight text-paper">Gestión de cursos</h1>
+    <p class="mt-1 text-sm text-dim">Administra los cursos disponibles para clasificar los tópicos.</p>
+  </div>
+
+  @if (errorGeneral()) {
+    <div class="mb-4 rounded-lg border border-danger/30 bg-danger/10 px-4 py-3 text-sm text-danger">
+      {{ errorGeneral() }}
+    </div>
+  }
+
+  <form [formGroup]="formulario" (ngSubmit)="crearCurso()" class="mb-8 rounded-xl border border-line bg-panel p-4 sm:p-5">
+    <h2 class="mb-4 text-sm font-semibold text-paper">Crear curso</h2>
+    <div class="grid gap-4 sm:grid-cols-[1fr_200px_auto]">
+      <div>
+        <input
+          id="nombre"
+          type="text"
+          formControlName="nombre"
+          placeholder="Nombre del curso"
+          class="w-full rounded-lg border border-line bg-ink-deep px-3 py-2 text-sm text-paper placeholder:text-dim/60 focus:border-accent focus-visible:outline-2 focus-visible:outline-accent focus-visible:outline-offset-2"
+        />
+        @if (campoError('nombre'); as error) {
+          <p class="mt-1 text-xs text-danger">{{ error }}</p>
+        }
+      </div>
+      <div>
+        <select
+          id="categoria"
+          formControlName="categoria"
+          class="select-outlined w-full appearance-none rounded-lg border border-line bg-ink-deep px-3 py-2 pr-9 text-sm text-paper focus:border-accent focus-visible:outline-2 focus-visible:outline-accent focus-visible:outline-offset-2"
+        >
+          @for (categoria of categorias; track categoria) {
+            <option [value]="categoria">{{ CATEGORIA_LABEL[categoria] }}</option>
+          }
+        </select>
+      </div>
+      <div>
+        <button
+          type="submit"
+          [disabled]="cargando()"
+          class="w-full rounded-lg bg-accent px-4 py-2 text-sm font-semibold text-ink-deep transition-colors hover:bg-accent-strong disabled:opacity-60 sm:w-auto"
+        >
+          {{ cargando() ? 'Creando…' : 'Crear curso' }}
+        </button>
+      </div>
+    </div>
+  </form>
+
+  @if (cargandoLista()) {
+    <div class="space-y-2">
+      @for (_ of [1, 2, 3]; track $index) {
+        <div class="animate-pulse h-10 rounded-lg bg-panel"></div>
+      }
+    </div>
+  } @else if (cursos().length === 0) {
+    <div class="rounded-xl border border-dashed border-line p-10 text-center text-dim">
+      No hay cursos creados todavía.
+    </div>
+  } @else {
+    <div class="space-y-3 md:space-y-0 md:overflow-x-auto md:rounded-xl md:border md:border-line">
+      <table class="w-full text-left text-sm md:table">
+        <thead class="hidden bg-panel-2 text-xs text-dim md:table-header-group">
+          <tr>
+            <th class="px-4 py-3 font-medium">Nombre</th>
+            <th class="px-4 py-3 font-medium">Categoría</th>
+            <th class="px-4 py-3 font-medium">Estado</th>
+            <th class="px-4 py-3 text-right font-medium">Acciones</th>
+          </tr>
+        </thead>
+        <tbody class="block space-y-3 md:table-row-group md:space-y-0 md:divide-y md:divide-line md:bg-panel">
+          @for (curso of cursos(); track curso.id) {
+            <tr class="flex flex-col gap-2 rounded-xl border border-line bg-panel p-4 md:table-row md:rounded-none md:border-0 md:p-0">
+              <td class="block md:table-cell md:px-4 md:py-3">
+                <span class="block text-xs font-medium text-dim md:hidden">Nombre</span>
+                <span class="text-paper/85">{{ curso.nombre }}</span>
+              </td>
+              <td class="block md:table-cell md:px-4 md:py-3">
+                <span class="block text-xs font-medium text-dim md:hidden">Categoría</span>
+                <span class="text-dim">{{ CATEGORIA_LABEL[curso.categoria] }}</span>
+              </td>
+              <td class="block md:table-cell md:px-4 md:py-3">
+                <span class="block text-xs font-medium text-dim md:hidden">Estado</span>
+                <span
+                  class="inline-block rounded-full px-2.5 py-0.5 text-xs font-medium"
+                  [class]="curso.activo ? 'bg-mint/10 text-mint' : 'bg-dim/10 text-dim'"
+                >
+                  {{ curso.activo ? 'Activo' : 'Inactivo' }}
+                </span>
+              </td>
+              <td class="block md:table-cell md:px-4 md:py-3 md:text-right">
+                <span class="block text-xs font-medium text-dim md:hidden">Acciones</span>
+                @if (curso.activo) {
+                  <button
+                    type="button"
+                    (click)="desactivarCurso(curso.id)"
+                    class="w-full rounded-lg border border-danger/40 px-3 py-2 text-xs text-danger transition-colors hover:bg-danger/10 md:w-auto"
+                  >
+                    Desactivar
+                  </button>
+                } @else {
+                  <span class="text-xs text-dim">—</span>
+                }
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+</div>

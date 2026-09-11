@@ -1,0 +1,73 @@
+<div class="flex min-h-[calc(100dvh-4rem)] items-center justify-center px-4 py-12">
+  <div class="w-full max-w-md">
+    <div class="mb-8 text-center">
+      <span
+        class="mx-auto grid h-12 w-12 place-items-center rounded-xl border border-accent/40 bg-accent/10 font-display text-2xl font-bold text-accent"
+      >
+        F
+      </span>
+      <h1 class="mt-4 font-display text-2xl font-bold tracking-tight text-paper">Iniciar sesión</h1>
+      <p class="mt-1 text-sm text-dim">Accede a tu cuenta de ForoHub</p>
+    </div>
+
+    @if (mensajeSesionExpirada()) {
+      <div class="mb-4 rounded-lg border border-accent/30 bg-accent/10 px-4 py-3 text-sm text-accent">
+        Tu sesión expiró. Inicia sesión nuevamente.
+      </div>
+    }
+    @if (mensajeExito()) {
+      <div class="mb-4 rounded-lg border border-mint/30 bg-mint/10 px-4 py-3 text-sm text-mint">
+        {{ mensajeExito() }} Ahora puedes iniciar sesión.
+      </div>
+    }
+    @if (errorGeneral()) {
+      <div class="mb-4 rounded-lg border border-danger/30 bg-danger/10 px-4 py-3 text-sm text-danger">
+        {{ errorGeneral() }}
+      </div>
+    }
+
+    <form [formGroup]="formulario" (ngSubmit)="iniciarSesion()" class="space-y-5 rounded-xl border border-line bg-panel p-4 sm:p-6">
+      <div>
+        <label for="email" class="mb-1.5 block text-sm font-medium text-paper/80">Email</label>
+        <input
+          id="email"
+          type="email"
+          formControlName="email"
+          placeholder="tu@email.com"
+          autocomplete="email"
+          class="w-full rounded-lg border border-line bg-ink-deep px-3 py-2 text-sm text-paper placeholder:text-dim/60 focus:border-accent focus-visible:outline-2 focus-visible:outline-accent focus-visible:outline-offset-2"
+        />
+        @if (campoError('email'); as error) {
+          <p class="mt-1 text-xs text-danger">{{ error }}</p>
+        }
+      </div>
+
+      <div>
+        <label for="contrasena" class="mb-1.5 block text-sm font-medium text-paper/80">Contraseña</label>
+        <input
+          id="contrasena"
+          type="password"
+          formControlName="contrasena"
+          autocomplete="current-password"
+          class="w-full rounded-lg border border-line bg-ink-deep px-3 py-2 text-sm text-paper placeholder:text-dim/60 focus:border-accent focus-visible:outline-2 focus-visible:outline-accent focus-visible:outline-offset-2"
+        />
+        @if (campoError('contrasena'); as error) {
+          <p class="mt-1 text-xs text-danger">{{ error }}</p>
+        }
+      </div>
+
+      <button
+        type="submit"
+        [disabled]="cargando()"
+        class="w-full rounded-lg bg-accent px-4 py-2.5 text-sm font-semibold text-ink-deep transition-colors hover:bg-accent-strong disabled:cursor-not-allowed disabled:opacity-60"
+      >
+        {{ cargando() ? 'Ingresando…' : 'Ingresar' }}
+      </button>
+    </form>
+
+    <p class="mt-6 text-center text-sm text-dim">
+      ¿No tienes una cuenta?
+      <a routerLink="/registro" class="font-medium text-accent transition-colors hover:text-accent-strong">Regístrate</a>
+    </p>
+  </div>
+</div>

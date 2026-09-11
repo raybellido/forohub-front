@@ -1,0 +1,91 @@
+<div class="mx-auto max-w-4xl px-4 py-8">
+  <div class="mb-8">
+    <h1 class="font-display text-2xl font-bold tracking-tight text-paper">Gestión de usuarios</h1>
+    <p class="mt-1 text-sm text-dim">Administra las cuentas registradas en el foro.</p>
+  </div>
+
+  @if (errorGeneral()) {
+    <div class="mb-4 rounded-lg border border-danger/30 bg-danger/10 px-4 py-3 text-sm text-danger">
+      {{ errorGeneral() }}
+    </div>
+  }
+
+  @if (cargando()) {
+    <div class="space-y-2">
+      @for (_ of [1, 2, 3]; track $index) {
+        <div class="animate-pulse h-10 rounded-lg bg-panel"></div>
+      }
+    </div>
+  } @else if (usuarios().length === 0) {
+    <div class="rounded-xl border border-dashed border-line p-10 text-center text-dim">
+      No hay usuarios registrados.
+    </div>
+  } @else {
+    <div class="space-y-3 md:space-y-0 md:overflow-x-auto md:rounded-xl md:border md:border-line">
+      <table class="w-full text-left text-sm md:table">
+        <thead class="hidden bg-panel-2 text-xs text-dim md:table-header-group">
+          <tr>
+            <th class="px-4 py-3 font-medium">Nombre</th>
+            <th class="px-4 py-3 font-medium">Email</th>
+            <th class="px-4 py-3 font-medium">Perfil</th>
+            <th class="px-4 py-3 font-medium">Estado</th>
+            <th class="px-4 py-3 text-right font-medium">Acciones</th>
+          </tr>
+        </thead>
+        <tbody class="block space-y-3 md:table-row-group md:space-y-0 md:divide-y md:divide-line md:bg-panel">
+          @for (usuario of usuarios(); track usuario.id) {
+            <tr class="flex flex-col gap-2 rounded-xl border border-line bg-panel p-4 md:table-row md:rounded-none md:border-0 md:p-0">
+              <td class="block md:table-cell md:px-4 md:py-3">
+                <span class="block text-xs font-medium text-dim md:hidden">Nombre</span>
+                <div class="flex items-center gap-2.5">
+                  <app-avatar
+                    [imagen]="usuario.avatarUrl"
+                    [nombre]="usuario.nombre"
+                    tam="h-7 w-7 text-[10px]"
+                  />
+                  <span class="font-medium text-paper/85">{{ usuario.nombre }}</span>
+                </div>
+              </td>
+              <td class="block overflow-hidden text-ellipsis md:table-cell md:px-4 md:py-3">
+                <span class="block text-xs font-medium text-dim md:hidden">Email</span>
+                <span class="text-dim">{{ usuario.email }}</span>
+              </td>
+              <td class="block md:table-cell md:px-4 md:py-3">
+                <span class="block text-xs font-medium text-dim md:hidden">Perfil</span>
+                <span
+                  class="inline-block rounded-full px-2.5 py-0.5 text-xs font-medium"
+                  [class]="PERFIL_CLASES[usuario.perfil]"
+                >
+                  {{ PERFIL_LABEL[usuario.perfil] }}
+                </span>
+              </td>
+              <td class="block md:table-cell md:px-4 md:py-3">
+                <span class="block text-xs font-medium text-dim md:hidden">Estado</span>
+                <span
+                  class="inline-block rounded-full px-2.5 py-0.5 text-xs font-medium"
+                  [class]="usuario.activo ? 'bg-mint/10 text-mint' : 'bg-dim/10 text-dim'"
+                >
+                  {{ usuario.activo ? 'Activo' : 'Desactivado' }}
+                </span>
+              </td>
+              <td class="block md:table-cell md:px-4 md:py-3 md:text-right">
+                <span class="block text-xs font-medium text-dim md:hidden">Acciones</span>
+                @if (usuario.activo) {
+                  <button
+                    type="button"
+                    (click)="desactivarUsuario(usuario)"
+                    class="w-full rounded-lg border border-danger/40 px-3 py-2 text-xs text-danger transition-colors hover:bg-danger/10 md:w-auto"
+                  >
+                    Desactivar
+                  </button>
+                } @else {
+                  <span class="text-xs text-dim">—</span>
+                }
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+</div>

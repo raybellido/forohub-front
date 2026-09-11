@@ -1,0 +1,178 @@
+<header class="relative sticky top-0 z-20 border-b border-line bg-ink/90 backdrop-blur">
+  <div class="mx-auto flex h-16 max-w-5xl items-center justify-between gap-4 px-4">
+    <div class="flex items-center gap-4">
+      <a routerLink="/topicos" class="flex items-center gap-2.5">
+        <span
+          class="grid h-8 w-8 place-items-center rounded-lg border border-accent/40 bg-accent/10 font-display text-lg font-bold text-accent"
+        >
+          F
+        </span>
+        <span class="hidden font-display text-base font-bold tracking-tight text-paper sm:block md:text-lg">
+          ForoHub
+        </span>
+      </a>
+      <nav class="hidden min-[480px]:flex items-center gap-0.5 text-[13px]">
+        <a
+          routerLink="/topicos"
+          routerLinkActive="bg-panel text-paper"
+          class="rounded-md px-2.5 py-1.5 text-dim transition-colors hover:bg-panel hover:text-paper"
+        >
+          Tópicos
+        </a>
+        @if (esAdmin()) {
+          <a
+            routerLink="/cursos"
+            routerLinkActive="bg-panel text-paper"
+            class="rounded-md px-2.5 py-1.5 text-dim transition-colors hover:bg-panel hover:text-paper"
+          >
+            Cursos
+          </a>
+          <a
+            routerLink="/usuarios"
+            routerLinkActive="bg-panel text-paper"
+            class="rounded-md px-2.5 py-1.5 text-dim transition-colors hover:bg-panel hover:text-paper"
+          >
+            Usuarios
+          </a>
+        }
+      </nav>
+    </div>
+
+    <div class="flex items-center gap-2">
+      <button
+        type="button"
+        (click)="menuAbierto.set(!menuAbierto())"
+        [attr.aria-expanded]="menuAbierto()"
+        aria-label="Abrir menú"
+        class="grid h-9 w-9 place-items-center rounded-lg text-paper/80 transition-colors hover:bg-panel min-[480px]:hidden"
+      >
+        @if (menuAbierto()) {
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="h-5 w-5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+          </svg>
+        } @else {
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="h-5 w-5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5M3.75 17.25h16.5" />
+          </svg>
+        }
+      </button>
+
+      @if (autenticado() && miPerfil(); as perfil) {
+        <div class="hidden min-[480px]:flex items-center gap-2 text-sm">
+          <a
+            routerLink="/topicos/nuevo"
+            class="hidden rounded-lg bg-accent px-4 py-2 text-sm font-semibold text-ink-deep transition-colors hover:bg-accent-strong sm:block"
+          >
+            Nuevo tópico
+          </a>
+          <div class="flex items-center gap-2">
+            <a routerLink="/perfil" title="Mi perfil" class="block transition-opacity hover:opacity-80">
+              <app-avatar [imagen]="perfil.avatarUrl" [nombre]="perfil.nombre" tam="h-8 w-8 text-xs" />
+            </a>
+            <span class="hidden text-[13px] text-paper/80 md:block">
+              {{ perfil.nombre }}
+              @if (perfil.perfil === 'ADMIN') {
+                <span class="ml-1 rounded bg-accent/10 px-1.5 py-0.5 text-[11px] text-accent">
+                  Admin
+                </span>
+              }
+            </span>
+            <button
+              type="button"
+              (click)="cerrarSesion()"
+              class="rounded-md px-2.5 py-1.5 text-[13px] text-dim transition-colors hover:bg-panel hover:text-paper"
+            >
+              Salir
+            </button>
+          </div>
+        </div>
+      } @else {
+        <div class="hidden items-center gap-1 text-[13px] min-[480px]:flex">
+          <a
+            routerLink="/login"
+            class="rounded-md px-2.5 py-1.5 font-medium text-dim transition-colors hover:bg-panel hover:text-paper"
+          >
+            Iniciar sesión
+          </a>
+          <a
+            routerLink="/registro"
+            class="rounded-lg bg-accent px-3 py-1.5 font-semibold text-ink-deep transition-colors hover:bg-accent-strong"
+          >
+            Registrarse
+          </a>
+        </div>
+      }
+    </div>
+  </div>
+
+  @if (menuAbierto()) {
+    <div class="absolute inset-x-0 top-16 border-b border-line bg-ink/95 px-4 py-3 shadow-xl backdrop-blur">
+      <nav class="flex flex-col gap-1 text-sm">
+        <a
+          routerLink="/topicos"
+          routerLinkActive="bg-panel text-paper"
+          (click)="cerrarMenu()"
+          class="rounded-md px-3 py-2 text-dim transition-colors hover:bg-panel hover:text-paper"
+        >
+          Tópicos
+        </a>
+        @if (esAdmin()) {
+          <a
+            routerLink="/cursos"
+            routerLinkActive="bg-panel text-paper"
+            (click)="cerrarMenu()"
+            class="rounded-md px-3 py-2 text-dim transition-colors hover:bg-panel hover:text-paper"
+          >
+            Cursos
+          </a>
+          <a
+            routerLink="/usuarios"
+            routerLinkActive="bg-panel text-paper"
+            (click)="cerrarMenu()"
+            class="rounded-md px-3 py-2 text-dim transition-colors hover:bg-panel hover:text-paper"
+          >
+            Usuarios
+          </a>
+        }
+        @if (autenticado() && miPerfil(); as perfil) {
+          <a
+            routerLink="/topicos/nuevo"
+            (click)="cerrarMenu()"
+            class="rounded-md px-3 py-2 text-dim transition-colors hover:bg-panel hover:text-paper"
+          >
+            Nuevo tópico
+          </a>
+          <a
+            routerLink="/perfil"
+            (click)="cerrarMenu()"
+            class="rounded-md px-3 py-2 text-dim transition-colors hover:bg-panel hover:text-paper"
+          >
+            Mi perfil
+          </a>
+          <button
+            type="button"
+            (click)="cerrarSesion()"
+            class="rounded-md px-3 py-2 text-left text-danger transition-colors hover:bg-danger/10"
+          >
+            Salir
+          </button>
+        } @else {
+          <a
+            routerLink="/login"
+            (click)="cerrarMenu()"
+            class="rounded-md px-3 py-2 text-dim transition-colors hover:bg-panel hover:text-paper"
+          >
+            Iniciar sesión
+          </a>
+          <a
+            routerLink="/registro"
+            (click)="cerrarMenu()"
+            class="rounded-md px-3 py-2 font-medium text-accent transition-colors hover:bg-accent/10"
+          >
+            Registrarse
+          </a>
+        }
+      </nav>
+    </div>
+  }
+</header>

@@ -1,0 +1,79 @@
+<div class="flex min-h-[calc(100dvh-4rem)] items-center justify-center px-4 py-12">
+  <div class="w-full max-w-md">
+    <div class="mb-8 text-center">
+      <span
+        class="mx-auto grid h-12 w-12 place-items-center rounded-xl border border-accent/40 bg-accent/10 font-display text-2xl font-bold text-accent"
+      >
+        F
+      </span>
+      <h1 class="mt-4 font-display text-2xl font-bold tracking-tight text-paper">Crear cuenta</h1>
+      <p class="mt-1 text-sm text-dim">Únete a la comunidad de ForoHub</p>
+    </div>
+
+    @if (errorGeneral()) {
+      <div class="mb-4 rounded-lg border border-danger/30 bg-danger/10 px-4 py-3 text-sm text-danger">
+        {{ errorGeneral() }}
+      </div>
+    }
+
+    <form [formGroup]="formulario" (ngSubmit)="registrar()" class="space-y-5 rounded-xl border border-line bg-panel p-4 sm:p-6">
+      <div>
+        <label for="nombre" class="mb-1.5 block text-sm font-medium text-paper/80">Nombre</label>
+        <input
+          id="nombre"
+          type="text"
+          formControlName="nombre"
+          placeholder="Tu nombre"
+          autocomplete="name"
+          class="w-full rounded-lg border border-line bg-ink-deep px-3 py-2 text-sm text-paper placeholder:text-dim/60 focus:border-accent focus-visible:outline-2 focus-visible:outline-accent focus-visible:outline-offset-2"
+        />
+        @if (campoError('nombre'); as error) {
+          <p class="mt-1 text-xs text-danger">{{ error }}</p>
+        }
+      </div>
+
+      <div>
+        <label for="email" class="mb-1.5 block text-sm font-medium text-paper/80">Email</label>
+        <input
+          id="email"
+          type="email"
+          formControlName="email"
+          placeholder="tu@email.com"
+          autocomplete="email"
+          class="w-full rounded-lg border border-line bg-ink-deep px-3 py-2 text-sm text-paper placeholder:text-dim/60 focus:border-accent focus-visible:outline-2 focus-visible:outline-accent focus-visible:outline-offset-2"
+        />
+        @if (campoError('email'); as error) {
+          <p class="mt-1 text-xs text-danger">{{ error }}</p>
+        }
+      </div>
+
+      <div>
+        <label for="contrasena" class="mb-1.5 block text-sm font-medium text-paper/80">Contraseña</label>
+        <input
+          id="contrasena"
+          type="password"
+          formControlName="contrasena"
+          placeholder="Mínimo 6 caracteres"
+          autocomplete="new-password"
+          class="w-full rounded-lg border border-line bg-ink-deep px-3 py-2 text-sm text-paper placeholder:text-dim/60 focus:border-accent focus-visible:outline-2 focus-visible:outline-accent focus-visible:outline-offset-2"
+        />
+        @if (campoError('contrasena'); as error) {
+          <p class="mt-1 text-xs text-danger">{{ error }}</p>
+        }
+      </div>
+
+      <button
+        type="submit"
+        [disabled]="cargando()"
+        class="w-full rounded-lg bg-accent px-4 py-2.5 text-sm font-semibold text-ink-deep transition-colors hover:bg-accent-strong disabled:cursor-not-allowed disabled:opacity-60"
+      >
+        {{ cargando() ? 'Creando cuenta…' : 'Registrarse' }}
+      </button>
+    </form>
+
+    <p class="mt-6 text-center text-sm text-dim">
+      ¿Ya tienes una cuenta?
+      <a routerLink="/login" class="font-medium text-accent transition-colors hover:text-accent-strong">Inicia sesión</a>
+    </p>
+  </div>
+</div>

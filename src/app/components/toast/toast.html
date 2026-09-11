@@ -1,0 +1,50 @@
+@if (notificaciones().length > 0) {
+  <div
+    role="status"
+    aria-live="polite"
+    class="fixed bottom-4 right-4 z-50 flex w-[min(22rem,calc(100vw-2rem))] flex-col gap-2"
+  >
+    @for (notificacion of notificaciones(); track notificacion.id) {
+      <div
+        class="toast-item flex items-start gap-3 rounded-xl border bg-panel px-4 py-3 shadow-xl"
+        [class]="notificacion.tipo === 'exito'
+          ? 'border-mint/40'
+          : notificacion.tipo === 'error'
+            ? 'border-danger/40'
+            : 'border-accent/40'"
+      >
+        <span
+          class="mt-0.5 grid h-4 w-4 shrink-0 place-items-center rounded-full text-[10px] font-bold text-ink-deep"
+          [class]="notificacion.tipo === 'exito'
+            ? 'bg-mint'
+            : notificacion.tipo === 'error'
+              ? 'bg-danger'
+              : 'bg-accent'"
+        >
+          @switch (notificacion.tipo) {
+            @case ('exito') {
+              ✓
+            }
+            @case ('error') {
+              !
+            }
+            @default {
+              i
+            }
+          }
+        </span>
+        <p class="min-w-0 flex-1 text-sm leading-snug text-paper/90">{{ notificacion.mensaje }}</p>
+        <button
+          type="button"
+          (click)="cerrar(notificacion.id)"
+          aria-label="Cerrar notificación"
+          class="shrink-0 text-dim transition-colors hover:text-paper"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="h-4 w-4">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+    }
+  </div>
+}
