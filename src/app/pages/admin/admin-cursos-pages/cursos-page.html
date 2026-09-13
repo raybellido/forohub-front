@@ -1,6 +1,6 @@
 <div class="mx-auto max-w-4xl px-4 py-8">
   <div class="mb-8">
-    <h1 class="font-display text-2xl font-bold tracking-tight text-paper">Gestión de cursos</h1>
+    <h1 class="font-display text-3xl font-bold tracking-tight text-paper">Gestión de cursos</h1>
     <p class="mt-1 text-sm text-dim">Administra los cursos disponibles para clasificar los tópicos.</p>
   </div>
 
@@ -10,7 +10,7 @@
     </div>
   }
 
-  <form [formGroup]="formulario" (ngSubmit)="crearCurso()" class="mb-8 rounded-xl border border-line bg-panel p-4 sm:p-5">
+  <form [formGroup]="formulario" (ngSubmit)="crearCurso()" class="mb-8 rounded-2xl border border-line bg-panel p-5 sm:p-6">
     <h2 class="mb-4 text-sm font-semibold text-paper">Crear curso</h2>
     <div class="grid gap-4 sm:grid-cols-[1fr_200px_auto]">
       <div>
@@ -40,7 +40,7 @@
         <button
           type="submit"
           [disabled]="cargando()"
-          class="w-full rounded-lg bg-accent px-4 py-2 text-sm font-semibold text-ink-deep transition-colors hover:bg-accent-strong disabled:opacity-60 sm:w-auto"
+          class="w-full rounded-lg bg-accent px-4 py-2 text-sm font-semibold text-accent-fg transition-colors hover:bg-accent-strong disabled:opacity-60 sm:w-auto"
         >
           {{ cargando() ? 'Creando…' : 'Crear curso' }}
         </button>

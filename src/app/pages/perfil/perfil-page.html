@@ -42,7 +42,7 @@
         (click)="modo.set('generador');"
         class="rounded-lg px-4 py-2.5 text-sm font-medium transition-colors"
         [class]="modo() === 'generador'
-          ? 'bg-accent text-ink-deep'
+          ? 'bg-accent text-accent-fg'
           : 'bg-panel-2 text-dim hover:bg-line hover:text-paper'"
       >
         Generador de avatares
@@ -52,7 +52,7 @@
         (click)="modo.set('url');"
         class="rounded-lg px-4 py-2.5 text-sm font-medium transition-colors"
         [class]="modo() === 'url'
-          ? 'bg-accent text-ink-deep'
+          ? 'bg-accent text-accent-fg'
           : 'bg-panel-2 text-dim hover:bg-line hover:text-paper'"
       >
         URL propia
@@ -134,7 +134,7 @@
         type="button"
         (click)="guardar()"
         [disabled]="guardando()"
-        class="rounded-lg bg-accent px-5 py-2 text-sm font-semibold text-ink-deep transition-colors hover:bg-accent-strong disabled:cursor-not-allowed disabled:opacity-60"
+        class="rounded-lg bg-accent px-5 py-2 text-sm font-semibold text-accent-fg transition-colors hover:bg-accent-strong disabled:cursor-not-allowed disabled:opacity-60"
       >
         {{ guardando() ? 'Guardando…' : 'Guardar avatar' }}
       </button>

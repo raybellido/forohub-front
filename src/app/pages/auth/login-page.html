@@ -1,15 +1,16 @@
 <div class="flex min-h-[calc(100dvh-4rem)] items-center justify-center px-4 py-12">
   <div class="w-full max-w-md">
     <div class="mb-8 text-center">
-      <span
-        class="mx-auto grid h-12 w-12 place-items-center rounded-xl border border-accent/40 bg-accent/10 font-display text-2xl font-bold text-accent"
-      >
-        F
-      </span>
-      <h1 class="mt-4 font-display text-2xl font-bold tracking-tight text-paper">Iniciar sesión</h1>
-      <p class="mt-1 text-sm text-dim">Accede a tu cuenta de ForoHub</p>
+      <h1 class="mt-4 font-display text-3xl font-bold tracking-tight text-paper">Iniciar sesión</h1>
+      <p class="mt-1.5 text-sm text-dim">Accede a tu cuenta de ForoHub</p>
     </div>
 
+    @if (esDemo) {
+      <div class="mb-4 rounded-lg border border-accent/30 bg-accent/10 px-4 py-3 text-sm text-accent">
+        <b class="font-semibold">Modo demostración.</b> Entra con cualquier email y contraseña para explorar la
+        plataforma como administrador.
+      </div>
+    }
     @if (mensajeSesionExpirada()) {
       <div class="mb-4 rounded-lg border border-accent/30 bg-accent/10 px-4 py-3 text-sm text-accent">
         Tu sesión expiró. Inicia sesión nuevamente.
@@ -26,7 +27,7 @@
       </div>
     }
 
-    <form [formGroup]="formulario" (ngSubmit)="iniciarSesion()" class="space-y-5 rounded-xl border border-line bg-panel p-4 sm:p-6">
+    <form [formGroup]="formulario" (ngSubmit)="iniciarSesion()" class="space-y-5 rounded-2xl border border-line bg-panel p-6 sm:p-8">
       <div>
         <label for="email" class="mb-1.5 block text-sm font-medium text-paper/80">Email</label>
         <input
@@ -59,10 +60,21 @@
       <button
         type="submit"
         [disabled]="cargando()"
-        class="w-full rounded-lg bg-accent px-4 py-2.5 text-sm font-semibold text-ink-deep transition-colors hover:bg-accent-strong disabled:cursor-not-allowed disabled:opacity-60"
+        class="w-full rounded-lg bg-accent px-4 py-2.5 text-sm font-semibold text-accent-fg transition-colors hover:bg-accent-strong disabled:cursor-not-allowed disabled:opacity-60"
       >
         {{ cargando() ? 'Ingresando…' : 'Ingresar' }}
       </button>
+
+      @if (esDemo) {
+        <button
+          type="button"
+          (click)="entrarComoDemo()"
+          [disabled]="cargando()"
+          class="w-full rounded-lg border border-accent/40 bg-accent/10 px-4 py-2.5 text-sm font-semibold text-accent transition-colors hover:bg-accent/20 disabled:cursor-not-allowed disabled:opacity-60"
+        >
+          Entrar como demo sin registro
+        </button>
+      }
     </form>
 
     <p class="mt-6 text-center text-sm text-dim">

@@ -1,12 +1,12 @@
 @if (opciones(); as opciones) {
   <div
-    class="backdrop-modal fixed inset-0 z-50 grid place-items-center overflow-y-auto bg-ink/70 px-4 py-8"
+    class="backdrop-modal fixed inset-0 z-50 grid place-items-center overflow-y-auto bg-black/60 px-4 py-8"
     (click)="cancelar()"
     role="dialog"
     aria-modal="true"
   >
     <div
-      class="w-full max-w-sm rounded-xl border border-line bg-panel p-5"
+      class="w-full max-w-sm rounded-2xl border border-line bg-panel p-5"
       (click)="$event.stopPropagation()"
     >
       <h2 class="font-display text-lg font-semibold text-paper">{{ opciones.titulo }}</h2>
@@ -23,7 +23,7 @@
         <button
           type="button"
           (click)="aceptar()"
-          class="rounded-lg px-4 py-2 text-sm font-semibold text-ink-deep transition-opacity hover:opacity-90"
+          class="rounded-lg px-4 py-2 text-sm font-semibold text-accent-fg transition-opacity hover:opacity-90"
           [class]="opciones.variante === 'primario'
             ? 'bg-accent hover:bg-accent-strong'
             : 'bg-danger'"

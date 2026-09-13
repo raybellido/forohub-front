@@ -7,26 +7,27 @@
     'Inter Variable', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
   --font-display: 'Source Serif 4 Variable', 'Source Serif 4', Georgia, 'Times New Roman', serif;
 
-  --color-ink-deep: #0a0d13;
-  --color-ink: #0e1117;
-  --color-panel: #171c26;
-  --color-panel-2: #1f2531;
-  --color-line: #29323f;
-  --color-line-soft: #202734;
+  --color-ink-deep: #f6f4ef;
+  --color-ink: #e9e5df;
+  --color-panel: #f2efe9;
+  --color-panel-2: #e3dfd5;
+  --color-line: #d4cfc3;
+  --color-line-soft: #dfdbd0;
 
-  --color-accent: #74a863;
-  --color-accent-strong: #92c582;
-  --color-paper: #e8e5dd;
-  --color-dim: #8e93a3;
+  --color-accent: #5c8f47;
+  --color-accent-strong: #74aa54;
+  --color-accent-fg: #0f160c;
+  --color-paper: #2a2620;
+  --color-dim: #6b665e;
 
-  --color-mint: #5cc98f;
-  --color-sky: #7fb4e8;
-  --color-danger: #e2605a;
-  --color-violet: #a78bfa;
+  --color-mint: #1f9d62;
+  --color-sky: #2f7bc1;
+  --color-danger: #d94f45;
+  --color-violet: #7a5af5;
 }
 
 :root {
-  color-scheme: dark;
+  color-scheme: light;
 }
 
 html,
@@ -37,7 +38,7 @@ body {
 body {
   margin: 0;
   background-color: var(--color-ink);
-  background-image: radial-gradient(1100px 520px at 50% -10%, rgb(116 168 99 / 0.06), transparent 60%);
+  background-image: radial-gradient(1100px 520px at 50% -10%, rgb(92 143 71 / 0.10), transparent 60%);
   background-repeat: no-repeat;
   color: var(--color-paper);
   font-family: var(--font-sans);
@@ -67,7 +68,7 @@ body {
 
 @layer components {
   .select-outlined {
-    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'><path stroke='%238e93a3' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/></svg>");
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'><path stroke='%236b665e' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/></svg>");
     background-repeat: no-repeat;
     background-position: right 0.6rem center;
     background-size: 1.1rem;

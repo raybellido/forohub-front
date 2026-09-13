@@ -1,13 +1,9 @@
 <header class="relative sticky top-0 z-20 border-b border-line bg-ink/90 backdrop-blur">
   <div class="mx-auto flex h-16 max-w-5xl items-center justify-between gap-4 px-4">
     <div class="flex items-center gap-4">
-      <a routerLink="/topicos" class="flex items-center gap-2.5">
-        <span
-          class="grid h-8 w-8 place-items-center rounded-lg border border-accent/40 bg-accent/10 font-display text-lg font-bold text-accent"
-        >
-          F
-        </span>
-        <span class="hidden font-display text-base font-bold tracking-tight text-paper sm:block md:text-lg">
+      <a routerLink="/topicos" class="group flex items-center gap-3" aria-label="ForoHub, ir al inicio">
+        
+        <span class="hidden font-display text-xl font-bold tracking-tight text-paper sm:block md:text-2xl">
           ForoHub
         </span>
       </a>
@@ -15,9 +11,17 @@
         <a
           routerLink="/topicos"
           routerLinkActive="bg-panel text-paper"
+          [routerLinkActiveOptions]="{ exact: true }"
           class="rounded-md px-2.5 py-1.5 text-dim transition-colors hover:bg-panel hover:text-paper"
         >
           Tópicos
+        </a>
+        <a
+          routerLink="/topicos/mios"
+          routerLinkActive="bg-panel text-paper"
+          class="rounded-md px-2.5 py-1.5 text-dim transition-colors hover:bg-panel hover:text-paper"
+        >
+          Mis tópicos
         </a>
         @if (esAdmin()) {
           <a
@@ -59,13 +63,6 @@
 
       @if (autenticado() && miPerfil(); as perfil) {
         <div class="hidden min-[480px]:flex items-center gap-2 text-sm">
-          <a
-            routerLink="/topicos/nuevo"
-            class="hidden rounded-lg bg-accent px-4 py-2 text-sm font-semibold text-ink-deep transition-colors hover:bg-accent-strong sm:block"
-          >
-            Nuevo tópico
-          </a>
-          <div class="flex items-center gap-2">
             <a routerLink="/perfil" title="Mi perfil" class="block transition-opacity hover:opacity-80">
               <app-avatar [imagen]="perfil.avatarUrl" [nombre]="perfil.nombre" tam="h-8 w-8 text-xs" />
             </a>
@@ -84,7 +81,6 @@
             >
               Salir
             </button>
-          </div>
         </div>
       } @else {
         <div class="hidden items-center gap-1 text-[13px] min-[480px]:flex">
@@ -96,7 +92,7 @@
           </a>
           <a
             routerLink="/registro"
-            class="rounded-lg bg-accent px-3 py-1.5 font-semibold text-ink-deep transition-colors hover:bg-accent-strong"
+            class="rounded-lg bg-accent px-3 py-1.5 font-semibold text-accent-fg transition-colors hover:bg-accent-strong"
           >
             Registrarse
           </a>
@@ -111,10 +107,19 @@
         <a
           routerLink="/topicos"
           routerLinkActive="bg-panel text-paper"
+          [routerLinkActiveOptions]="{ exact: true }"
           (click)="cerrarMenu()"
           class="rounded-md px-3 py-2 text-dim transition-colors hover:bg-panel hover:text-paper"
         >
           Tópicos
+        </a>
+        <a
+          routerLink="/topicos/mios"
+          routerLinkActive="bg-panel text-paper"
+          (click)="cerrarMenu()"
+          class="rounded-md px-3 py-2 text-dim transition-colors hover:bg-panel hover:text-paper"
+        >
+          Mis tópicos
         </a>
         @if (esAdmin()) {
           <a
@@ -135,13 +140,6 @@
           </a>
         }
         @if (autenticado() && miPerfil(); as perfil) {
-          <a
-            routerLink="/topicos/nuevo"
-            (click)="cerrarMenu()"
-            class="rounded-md px-3 py-2 text-dim transition-colors hover:bg-panel hover:text-paper"
-          >
-            Nuevo tópico
-          </a>
           <a
             routerLink="/perfil"
             (click)="cerrarMenu()"

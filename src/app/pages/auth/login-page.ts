@@ -3,6 +3,7 @@ import { FormControl, FormGroup, NonNullableFormBuilder, ReactiveFormsModule, Va
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 
 import { AuthService } from '../../services/auth.service';
+import { environment } from '../../../environments/environment';
 import { extraerError } from '../../utils/errores';
 import { errorCampo } from '../../utils/form-error';
 
@@ -14,6 +15,7 @@ import { errorCampo } from '../../utils/form-error';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoginPage {
+  readonly esDemo = environment.demo;
   private readonly fb = inject(NonNullableFormBuilder);
   private readonly authService = inject(AuthService);
   private readonly router = inject(Router);
@@ -58,6 +60,20 @@ export class LoginPage {
       const extraido = extraerError(error);
       this.errorGeneral.set(extraido.mensaje);
       this.errorCampos.set(extraido.campos);
+    } finally {
+      this.cargando.set(false);
+    }
+  }
+
+  async entrarComoDemo(): Promise<void> {
+    if (!this.esDemo) return;
+    this.errorGeneral.set('');
+    this.cargando.set(true);
+    try {
+      await this.authService.login({ email: 'demo@forohub.com', contrasena: 'demo1234' });
+      await this.router.navigate(['/topicos']);
+    } catch (error) {
+      this.errorGeneral.set(extraerError(error).mensaje);
     } finally {
       this.cargando.set(false);
     }

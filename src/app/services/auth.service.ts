@@ -58,7 +58,7 @@ export class AuthService {
       return;
     }
     this.perfilSignal.set(perfilInicial);
-    void this.cargarMiPerfil();
+    queueMicrotask(() => void this.cargarMiPerfil());
   }
 
   async login(credenciales: LoginRequest): Promise<void> {

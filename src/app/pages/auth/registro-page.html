@@ -1,13 +1,8 @@
 <div class="flex min-h-[calc(100dvh-4rem)] items-center justify-center px-4 py-12">
   <div class="w-full max-w-md">
     <div class="mb-8 text-center">
-      <span
-        class="mx-auto grid h-12 w-12 place-items-center rounded-xl border border-accent/40 bg-accent/10 font-display text-2xl font-bold text-accent"
-      >
-        F
-      </span>
-      <h1 class="mt-4 font-display text-2xl font-bold tracking-tight text-paper">Crear cuenta</h1>
-      <p class="mt-1 text-sm text-dim">Únete a la comunidad de ForoHub</p>
+      <h1 class="mt-4 font-display text-3xl font-bold tracking-tight text-paper">Crear cuenta</h1>
+      <p class="mt-1.5 text-sm text-dim">Únete a la comunidad de ForoHub</p>
     </div>
 
     @if (errorGeneral()) {
@@ -16,7 +11,7 @@
       </div>
     }
 
-    <form [formGroup]="formulario" (ngSubmit)="registrar()" class="space-y-5 rounded-xl border border-line bg-panel p-4 sm:p-6">
+    <form [formGroup]="formulario" (ngSubmit)="registrar()" class="space-y-5 rounded-2xl border border-line bg-panel p-6 sm:p-8">
       <div>
         <label for="nombre" class="mb-1.5 block text-sm font-medium text-paper/80">Nombre</label>
         <input
@@ -65,7 +60,7 @@
       <button
         type="submit"
         [disabled]="cargando()"
-        class="w-full rounded-lg bg-accent px-4 py-2.5 text-sm font-semibold text-ink-deep transition-colors hover:bg-accent-strong disabled:cursor-not-allowed disabled:opacity-60"
+        class="w-full rounded-lg bg-accent px-4 py-2.5 text-sm font-semibold text-accent-fg transition-colors hover:bg-accent-strong disabled:cursor-not-allowed disabled:opacity-60"
       >
         {{ cargando() ? 'Creando cuenta…' : 'Registrarse' }}
       </button>

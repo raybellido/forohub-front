@@ -24,6 +24,11 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/topicos/topico-page/topicos-page').then((m) => m.TopicosPage),
   },
   {
+    path: 'topicos/mios',
+    canActivate: [authGuard],
+    loadComponent: () => import('./pages/topicos/mis-topicos-page/mis-topicos-page').then((m) => m.MisTopicosPage),
+  },
+  {
     path: 'topicos/nuevo',
     canActivate: [authGuard],
     loadComponent: () => import('./pages/topicos/topico-form-page/topico-form-page').then((m) => m.TopicoFormPage),
