@@ -10,6 +10,7 @@ import { Toast } from './components/toast/toast';
   imports: [RouterOutlet, Navbar, Toast, ConfirmDialog],
   template: `
     <app-navbar />
+    <h1 >hola mundoooo</h1>
     <main class="min-h-[calc(100dvh-4rem)]">
       <router-outlet />
     </main>
